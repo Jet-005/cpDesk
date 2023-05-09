@@ -2,23 +2,45 @@ const User = require("../models/index").getModel("user")
 
 const user = {
   /**
-   * @Description: ��¼
-   * @date 2019/5/30
+   * @Description:根据openid查找用户
+   * @date 2023/5/09
+   * @params: { String } openid
+   * @return: { Object | null }
+   */
+  async findOneByOpenId(openid) {
+    let result = await User.findOne({ openid: openid }, { __v: 0 })
+    return result
+  },
+  /**
+   * @Description:根据userId查找用户
+   * @date 2023/5/09
+   * @params: { String } userId
+   * @return: { Object | null }
+   */
+  async findOneById(userId) {
+    let result = await User.findOne({ userId: userId }, { __v: 0 })
+    return result
+  },
+  /**
+   * @Description: 插入新用户数据
+   * @date 2023/5/09
    * @params: { Object } userData
    * @return: { Object | null }
    */
-  async findOne(userData) {
-    console.log(User, "user model")
-    let result = await User.findOne(userData)
-    console.log(result, "user login")
-    return result
-  },
   async createUser(userData) {
-    console.log(User, "user model")
     let result = await User.create(userData)
-    console.log(result, "user login")
     return result
   },
+  /**
+   * @Description: 根据userid更新数据
+   * @date 2023/5/09
+   * @params: { String } userId
+   * @return: { Object | null }
+   */
+  // async findOneAndUpdateById(userId) {
+  //   let result = await User.create(userData)
+  //   return result
+  // },
 }
 
 module.exports = user

@@ -8,6 +8,6 @@ const router = new Router()
 router.prefix('/api')
 router.use(jwtMiddleware)
 
-router.get('/test', controllers.test.test)
+router.get('/test', controllers.mall.test)
 
 module.exports = router
