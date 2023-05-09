@@ -6,11 +6,11 @@ const userServices = require("../services").user
 const { InvalidQueryError } = require("../lib/error")
 const request = require("../lib/request")
 const login = {
-  isPublic: true,
+  public: true,
 }
 const APPID = "wx817f97989e7492b3"
 const APPSECRET = "ad77b60082615f95bb869e05602162cb"
-login.login = {
+login['post,login'] = {
   name: "login",
   method: "post",
   fun: [
