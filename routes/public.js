@@ -5,6 +5,7 @@ const controllers = require("../controllers")
 const router = new Router()
 router.prefix("/api")
 
-router.post("/login", controllers.login.login)
-
+for (let route of ctrls.publicRoutes) {
+  router[route.method](route.url, ...route.fun);
+}
 module.exports = router
