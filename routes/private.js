@@ -8,6 +8,7 @@ const router = new Router()
 router.prefix('/api')
 router.use(jwtMiddleware)
 
-router.get('/test', controllers.mall.test)
-
+for (let route of ctrls.privateRoutes) {
+  router[route.method](route.url, ...route.fun);
+}
 module.exports = router
