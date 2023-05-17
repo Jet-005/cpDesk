@@ -12,5 +12,7 @@ module.exports = {
     createTime: Date, //创建时间
     updateTime: Date, //更新时间
     sessionKey: String, // session_key,用来检查登录是否失效
+    connectId: String, // 关联的用户id,初始为""
+    role: Number, // 0 - 用户 1 - 商家
   },
 }
