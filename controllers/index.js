@@ -37,5 +37,4 @@ const addRoute = (ctrls) => {
   }
   return routeObj
 }
-console.log(addRoute(controllers), "router ctrls")
 module.exports = addRoute(controllers)

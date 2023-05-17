@@ -11,5 +11,4 @@ router.use(jwtMiddleware)
 for (let route of controllers.privateRoutes) {
   router[route.method](route.url, ...route.fun);
 }
-
 module.exports = router

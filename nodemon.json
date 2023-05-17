@@ -1,0 +1,11 @@
+{
+  "restartable": "rs",
+  "ignore": ["./logs/"],
+  "verbose": true,
+  "execMap": {
+    "": "node",
+    "test": "gulp test"
+  },
+
+  "legacy-watch": false
+}
