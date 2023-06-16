@@ -18,7 +18,7 @@ const user = {
    * @return: { Object | null }
    */
   async findOneById(userId) {
-    let result = await User.findOne({ userId: userId }, { __v: 0 })
+    let result = await User.findOne({ _id: userId }, { __v: 0 })
     return result
   },
   /**

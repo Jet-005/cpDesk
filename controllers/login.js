@@ -40,6 +40,7 @@ module.exports = {
           const res = await userServices.createUser(requestBody)
           user = res
         }
+        
         const data = {
           token: jwt.sign(
             {
@@ -49,7 +50,7 @@ module.exports = {
             },
             config.secret
           ),
-          userId: user._id,
+          ...user._doc,
         }
         ctx.result = data || {}
         return next()

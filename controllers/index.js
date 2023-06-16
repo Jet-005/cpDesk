@@ -1,6 +1,7 @@
 "use strict"
 
 const fs = require("fs")
+const { checkUser } = require("../middlewares/middlewares")
 
 const files = fs.readdirSync(__dirname).filter((file) => file !== "index.js")
 
@@ -26,11 +27,11 @@ const addRoute = (ctrls) => {
     // if (ctrls[f].public) {
     for (let i of ctrlsKeys) {
       const methodAndUrl = i.split(",")
-      const funArr = ctrls[f][i].fun
+      const funArr = ctrls[f][i].fun || []
       routeObj[routeKey].push({
         method: methodAndUrl[0] || "get",
         url: `/${methodAndUrl[1]}` || "/",
-        fun: funArr || [],
+        fun: ctrls[f].public ? funArr : [checkUser, ...funArr],
       })
     }
     // }
