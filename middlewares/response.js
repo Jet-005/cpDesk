@@ -5,16 +5,10 @@ const { logger } = require("./logger")
 // 这个middleware用于将ctx.result中的内容最终回传给客户端
 // 回传的格式遵循这样的格式：{ code: 0, msg: any data: any }
 const responseHandler = (ctx, next) => {
-  console.log(ctx, "responseHandler")
   if (ctx.result !== undefined) {
     ctx.type = "json"
-    ctx.body = {
-      code: ctx.code,
-      msg: ctx.msg || "",
-      data: ctx.result,
-    }
+    ctx.body = ctx.result
   } else {
-    console.log("retrun ctx null body")
     ctx.body = {
       code: "0000",
       msg: "error",

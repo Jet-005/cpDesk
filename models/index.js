@@ -3,7 +3,7 @@ const path = require("path")
 const mongoose = require("mongoose") //引用mongoose模块
 const config = require("../config")
 const { logger } = require("../middlewares/logger")
-
+mongoose.set('useFindAndModify', false)
 let url =
   "mongodb://" + config.mongoDB.host + ":" + config.mongoDB.port + "/" + config.mongoDB.database
 var mongo = mongoose.createConnection(url, { useNewUrlParser: true, useUnifiedTopology: true }) //创建一个数据库连接
