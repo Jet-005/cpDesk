@@ -49,7 +49,7 @@ const category = {
    */
   async findAll(page, limit, keyword = {}) {
     let result = await Cate.find(keyword)
-      .sort({ updateTime: 1 })
+      .sort({ createTime: 1 })
       .skip((page) * limit)
       .limit(limit)
     console.log(result,'page res')
