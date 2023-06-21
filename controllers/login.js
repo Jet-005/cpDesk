@@ -40,17 +40,21 @@ module.exports = {
           const res = await userServices.createUser(requestBody)
           user = res
         }
-        
+
         const data = {
-          token: jwt.sign(
-            {
-              data: user._id,
-              // 设置 token 过期时间
-              exp: Math.floor(Date.now() / 1000) + 60 * 1440, // 60 seconds * 60 minutes = 1 hour
-            },
-            config.secret
-          ),
-          ...user._doc,
+          success: true,
+          code: 1,
+          data: {
+            token: jwt.sign(
+              {
+                data: user._id,
+                // 设置 token 过期时间
+                exp: Math.floor(Date.now() / 1000) + 60 * 1440, // 60 seconds * 60 minutes = 1 hour
+              },
+              config.secret
+            ),
+            ...user._doc,
+          },
         }
         ctx.result = data || {}
         return next()

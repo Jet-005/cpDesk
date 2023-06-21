@@ -15,7 +15,7 @@ module.exports = {
           getBody.userId = user._id
           getBody.createTime = new Date()
           getBody.isDelete = 0 // 创建默认为0，即未删除
-          const res = await cateServices.createCate(getBody)
+          const res = await cateServices.create(getBody)
           let response = {
             success: true,
             msg: "ok",
@@ -46,9 +46,7 @@ module.exports = {
           const { user } = ctx.state
           if (!user) return next()
           const getBody = ctx.request.body
-          // const updateData = Object.assign({}, getBody)
-          // updateData.updateTime = new Date()
-          const res = await cateServices.findOneAndUpdateById(getBody.id, user._id, {
+          const res = await cateServices.findOneAndUpdateById(getBody.id, {
             updateTime: new Date(),
             name: getBody.name,
           })
@@ -74,17 +72,21 @@ module.exports = {
     fun: [
       // checkUser,
       async (ctx, next) => {
-        const { user } = ctx.state
-        if (!user) return next()
-        const { page } = ctx.params
-        const res = await cateServices.findAll(page, 5)
-        ctx.result = {
-          success: true,
-          msg: "ok",
-          code: 0,
-          data: res,
+        try {
+          const { user } = ctx.state
+          if (!user) return next()
+          const { page } = ctx.params
+          const res = await cateServices.findAll(page, 5, { userId: user._id })
+          ctx.result = {
+            success: true,
+            msg: "ok",
+            code: 0,
+            data: res,
+          }
+          return next()
+        } catch (error) {
+          console.error(error)
         }
-        return next()
       },
     ],
   },
@@ -142,7 +144,7 @@ module.exports = {
             updateTime: new Date(),
             isDelete: isDelete,
           }
-          const res = await cateServices.findOneAndUpdateById(id, userId, updateData)
+          const res = await cateServices.findOneAndUpdateById(id, updateData)
           if (!res) {
             ctx.result = {
               success: false,

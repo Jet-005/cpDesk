@@ -2,6 +2,7 @@
 
 const fs = require("fs")
 const { checkUser, verifyToken } = require("../middlewares/middlewares")
+const jwtMiddleware = require('../middlewares/jwt')
 
 const files = fs.readdirSync(__dirname).filter((file) => file !== "index.js")
 

@@ -8,8 +8,8 @@ const category = {
    * @params: { String } userId
    * @return: { Object | null }
    */
-  async findOneById(cateId, userId) {
-    let result = await Cate.findOne({ _id: cateId, userId: userId }, { __v: 0 })
+  async findOneById(cateId) {
+    let result = await Cate.findOne({ _id: cateId }, { __v: 0 })
     return result
   },
   /**
@@ -18,7 +18,7 @@ const category = {
    * @params: { Object } data
    * @return: { Object | null }
    */
-  async createCate(data) {
+  async create(data) {
     let result = await Cate.create(data)
     return result
   },
@@ -27,12 +27,11 @@ const category = {
    * @date 2023/5/09
    * @params: { String } cateId
    * @params: { String } userId
-
    * @return: { Object | null }
    */
-  async findOneAndUpdateById(cateId, userId, updateData) {
+  async findOneAndUpdateById(cateId, updateData) {
     let result = await Cate.findOneAndUpdate(
-      { _id: cateId, userId: userId },
+      { _id: cateId },
       {
         $set: updateData,
       }
@@ -48,13 +47,28 @@ const category = {
    * @return: { Object | null }
    */
   async findAll(page, limit, keyword = {}) {
-    let result = await Cate.find(keyword)
+    let result = await Cate.find(keyword, { __v: 0 })
       .sort({ createTime: 1 })
-      .skip((page) * limit)
+      .skip(page * limit)
       .limit(limit)
-    console.log(result,'page res')
     return result
   },
+  // /**
+  //  * @Description: 分页查询,支持关键词查询
+  //  * @date 2023/5/09
+  //  * @params: { Number } page
+  //  * @params: { Number } limit
+  //  * @params: { Object } keyword
+  //  * @return: { Object | null }
+  //  */
+  // async findAll(page, limit, keyword = {}) {
+  //   let result = await Cate.find(keyword)
+  //     .sort({ createTime: 1 })
+  //     .skip(page * limit)
+  //     .limit(limit)
+  //   console.log(result, "page res")
+  //   return result
+  // },
 }
 
 module.exports = category
