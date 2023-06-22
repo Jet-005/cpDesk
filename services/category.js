@@ -46,10 +46,11 @@ const category = {
    * @params: { Object } keyword
    * @return: { Object | null }
    */
-  async findAll(page, limit, keyword = {}) {
-    let result = await Cate.find(keyword, { __v: 0 })
+  async findAll(page, limit, userId, keyword = {}) {
+    keyword.userId = userId
+    let result = await Cate.find(keyword)
       .sort({ createTime: 1 })
-      .skip(page * limit)
+      .skip((page - 1) * limit)
       .limit(limit)
     return result
   },

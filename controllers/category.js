@@ -76,7 +76,7 @@ module.exports = {
           const { user } = ctx.state
           if (!user) return next()
           const { page } = ctx.params
-          const res = await cateServices.findAll(page, 5, { userId: user._id })
+          const res = await cateServices.findAll(page, 5, user._id)
           ctx.result = {
             success: true,
             msg: "ok",

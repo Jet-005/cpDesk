@@ -1,20 +1,22 @@
 "use strict"
 
 const { logger } = require("./logger")
-
+const codeFun = require('../lib/code')
 // 这个middleware用于将ctx.result中的内容最终回传给客户端
 // 回传的格式遵循这样的格式：{ code: 0, msg: any data: any }
 const responseHandler = (ctx, next) => {
-  if (ctx.result !== undefined) {
-    ctx.type = "json"
-    ctx.body = ctx.result
-  } else {
+  if (ctx.result === undefined) {
     ctx.body = {
-      code: "0000",
+      code: '0000',
       msg: "error",
-      data: null,
+      data: null
     }
+    return next()
   }
+  ctx.type = 'json'
+  ctx.body = ctx.result
+  ctx.body.msg = codeFun(ctx.result.code) || ''
+
   next()
 }
 

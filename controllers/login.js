@@ -37,6 +37,7 @@ module.exports = {
           requestBody.openid = openid
           requestBody.createTime = new Date()
           requestBody.sessionKey = session_key
+          requestBody.role = ""
           const res = await userServices.createUser(requestBody)
           user = res
         }
