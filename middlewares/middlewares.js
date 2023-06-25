@@ -1,6 +1,7 @@
 const userServices = require("../services").user
 const jwt = require("jsonwebtoken")
 const config = require("../config")
+const koaJwt = require("koa-jwt")
 
 //判断是否有当前用户
 const checkUser = async (ctx, next) => {
@@ -19,11 +20,17 @@ const checkUser = async (ctx, next) => {
 }
 //判断用户登录状态
 const verifyToken = async (ctx, next) => {
-  const getToken = ctx.header.authorization
-  if (!getToken) return await next()
-  const token = getToken.split(" ")
-  jwt.verify(token[1], config.secret)
-  // .then((res) => {})
+  // 将 token 中的数据解密后存到 ctx 中
+  try {
+    if (typeof ctx.request.headers.authorization === "string") {
+      const token = ctx.request.headers.authorization.slice(7)
+      ctx.jwtData = jwt.verify(token, config.secret)
+    } else {
+      throw { code: 401, message: "no authorization" }
+    }
+  } catch (err) {
+    throw { code: 401, message: err.message }
+  }
   await next()
 }
 module.exports = {

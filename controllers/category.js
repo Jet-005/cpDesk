@@ -77,11 +77,13 @@ module.exports = {
           if (!user) return next()
           const { page } = ctx.params
           const res = await cateServices.findAll(page, 5, user._id)
+          const total = await cateServices.count(user._id)
           ctx.result = {
             success: true,
             msg: "ok",
             code: 0,
             data: res,
+            count: total,
           }
           return next()
         } catch (error) {

@@ -72,12 +72,13 @@ module.exports = {
         if (!user) return next()
         const { page, cateId } = ctx.request.body
         const res = await dishedServices.findDishedsByCategory(page, 5, cateId)
-        console.log(res)
+        const total = await dishedServices.count(cateId)
         ctx.result = {
           success: true,
           msg: "ok",
           code: 0,
           data: res || [],
+          count:total
         }
         return next()
       },

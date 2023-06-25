@@ -42,7 +42,8 @@ const category = {
    * @Description: 分页查询,支持关键词查询
    * @date 2023/5/09
    * @params: { Number } page
-   * @params: { Number } limit
+   * @params: { Number } limit   
+   * @params: { String } userId
    * @params: { Object } keyword
    * @return: { Object | null }
    */
@@ -52,6 +53,18 @@ const category = {
       .sort({ createTime: 1 })
       .skip((page - 1) * limit)
       .limit(limit)
+    return result
+  },
+  /**
+   * @Description: 查询符合条件的数据总数
+   * @date 2023/5/09
+   * @params: { String } userId
+   * @params: { Object } keyword
+   * @return: { Object | null }
+   */
+  async count(userId, keyword = {}) {
+    keyword.userId = userId
+    let result = await Cate.countDocuments(keyword)
     return result
   },
   // /**

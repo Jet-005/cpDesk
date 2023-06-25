@@ -53,6 +53,18 @@ const dished = {
       .limit(limit)
     return result
   },
+  /**
+   * @Description: 查询符合条件的数据总数
+   * @date 2023/5/09
+   * @params: { String } cateId
+   * @params: { Object } keyword
+   * @return: { Object | null }
+   */
+  async count(cateId, keyword = {}) {
+    keyword.cateId = cateId
+    let result = await Dished.countDocuments(keyword)
+    return result
+  },
 }
 
 module.exports = dished
