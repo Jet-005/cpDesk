@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 module.exports = {
   name: "dished",
   schema: {
@@ -14,5 +14,6 @@ module.exports = {
     isLike: Number, // 是否点赞了 1-已点 0 - 未点
     likeUser: String, // 点赞人
     cateId: String, // 所属分类
+    isFeatured: Number, // 是否为特色产品
   },
-}
+};

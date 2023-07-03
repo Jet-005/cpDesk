@@ -1,4 +1,4 @@
-const Dished = require("../models/index").getModel("dished")
+const Dished = require("../models/index").getModel("dished");
 
 const dished = {
   /**
@@ -8,8 +8,8 @@ const dished = {
    * @return: { Object | null }
    */
   async findOneById(dishedid) {
-    let result = await Dished.findOne({ _id: dishedid }, { __v: 0 })
-    return result
+    let result = await Dished.findOne({ _id: dishedid }, { __v: 0 });
+    return result;
   },
   /**
    * @Description: 插入新菜品数据
@@ -18,8 +18,8 @@ const dished = {
    * @return: { Object | null }
    */
   async create(data) {
-    let result = await Dished.create(data)
-    return result
+    let result = await Dished.create(data);
+    return result;
   },
   /**
    * @Description: 根据Dishedid更新数据
@@ -27,14 +27,14 @@ const dished = {
    * @params: { String } DishedId
    * @return: { Object | null }
    */
-  async findOneAndUpdateById(DishedId, updateData) {
+  async findOneAndUpdateById(dishedId, updateData) {
     let result = await Dished.findOneAndUpdate(
-      { _id: DishedId },
+      { _id: dishedId },
       {
         $set: updateData,
       }
-    )
-    return result
+    );
+    return result;
   },
   /**
    * @Description: 根据categoryId查所有的菜品
@@ -46,12 +46,12 @@ const dished = {
    * @return: { Object | null }
    */
   async findDishedsByCategory(page, limit, cateId, keyword = {}) {
-    keyword.cateId = cateId
+    keyword.cateId = cateId;
     let result = await Dished.find(keyword)
       .sort({ createTime: 1 })
-      .skip(page * limit)
-      .limit(limit)
-    return result
+      .skip((page - 1) * limit)
+      .limit(limit);
+    return result;
   },
   /**
    * @Description: 查询符合条件的数据总数
@@ -61,10 +61,10 @@ const dished = {
    * @return: { Object | null }
    */
   async count(cateId, keyword = {}) {
-    keyword.cateId = cateId
-    let result = await Dished.countDocuments(keyword)
-    return result
+    keyword.cateId = cateId;
+    let result = await Dished.countDocuments(keyword);
+    return result;
   },
-}
+};
 
-module.exports = dished
+module.exports = dished;
