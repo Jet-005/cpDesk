@@ -2,7 +2,7 @@
 const dishedServices = require("../services").dished;
 const cateServices = require("../services").category;
 module.exports = {
-  "post,dished/save": {
+  "post,dished/mana/save": {
     name: "save dished by category",
     method: "post",
     fun: [
@@ -34,7 +34,7 @@ module.exports = {
       },
     ],
   },
-  "post,dished/update": {
+  "post,dished/mana/update": {
     name: "update dished",
     method: "post",
     fun: [
@@ -118,7 +118,7 @@ module.exports = {
       },
     ],
   },
-  "get,dished/change/:id/:isOnline": {
+  "get,dished/mana/change/:id/:isOnline": {
     name: "change dished status",
     method: "get",
     fun: [

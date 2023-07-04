@@ -1,8 +1,8 @@
 "use strict"
 const cateServices = require("../services").category
-// const { checkUser } = require("../middlewares/middlewares")
+const { checkManager } = require("../middlewares/middlewares")
 module.exports = {
-  "post,category/save": {
+  "post,category/mana/save": {
     name: "save category",
     method: "post",
     fun: [
@@ -36,7 +36,7 @@ module.exports = {
       },
     ],
   },
-  "post,category/update": {
+  "post,category/mana/update": {
     name: "update category",
     method: "post",
     fun: [
@@ -66,8 +66,8 @@ module.exports = {
       },
     ],
   },
-  "get,category/list/:page": {
-    name: "category list",
+  "get,category/mana/list/:page": {
+    name: "category mana list",
     method: "get",
     fun: [
       // checkUser,
@@ -92,7 +92,7 @@ module.exports = {
       },
     ],
   },
-  "get,category/get/:id": {
+  "get,category/mana/get/:id": {
     name: "get category info",
     method: "get",
     fun: [
@@ -123,7 +123,7 @@ module.exports = {
       },
     ],
   },
-  "get,category/del/:id/:isDelete": {
+  "get,category/mana/del/:id/:isDelete": {
     name: "delete category info",
     method: "get",
     fun: [
@@ -155,6 +155,32 @@ module.exports = {
             }
           } else {
             ctx.result = { success: true, msg: "ok", code: 1 }
+          }
+          return next()
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    ],
+  },
+  "get,category/user/list/:page": {
+    name: "category user list",
+    method: "get",
+    fun: [
+      checkManager,
+      async (ctx, next) => {
+        try {
+          const { mana } = ctx.state
+          if (!mana) return next()
+          const { page } = ctx.params
+          const res = await cateServices.findAll(page, 5, mana._id)
+          const total = await cateServices.count(mana._id)
+          ctx.result = {
+            success: true,
+            msg: "ok",
+            code: 0,
+            data: res,
+            count: total,
           }
           return next()
         } catch (error) {
