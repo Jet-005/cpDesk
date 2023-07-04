@@ -20,8 +20,8 @@ const checkUser = async (ctx, next) => {
 };
 // 判断是否有关联的人
 const checkManager = async (ctx, next) => {
-  if (!ctx.header.cId) return await next();
-  const userInfo = await userServices.findOneById(ctx.header.cId);
+  if (!ctx.header.cid) return await next();
+  const userInfo = await userServices.findOneById(ctx.header.cid);
   if (!userInfo) {
     ctx.result = {
       success: false,
@@ -29,7 +29,8 @@ const checkManager = async (ctx, next) => {
       code: 2002,
     };
     return await next();
-  }
+  }    
+
   ctx.state.mana = userInfo;
   await next();
 };
