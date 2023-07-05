@@ -170,13 +170,15 @@ module.exports = {
       checkManager,
       async (ctx, next) => {
         try {
-          const { mana } = ctx.state;
-          if (!mana) return next();
+          const { mana, user } = ctx.state;
+          if (!mana || !user) return next();
           const { page } = ctx.params;
           const res = await cateServices.findAll(page, 5, mana._id, {
             isDelete: 0,
           });
-          const total = await cateServices.count(mana._id);
+          const total = await cateServices.count(mana._id, {
+            isDelete: 0,
+          });
           ctx.result = {
             success: true,
             msg: "ok",

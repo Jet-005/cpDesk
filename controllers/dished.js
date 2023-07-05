@@ -1,6 +1,7 @@
 "use strict";
 const dishedServices = require("../services").dished;
-const cateServices = require("../services").category;
+const { checkManager } = require("../middlewares/middlewares");
+
 module.exports = {
   "post,dished/mana/save": {
     name: "save dished by category",
@@ -65,7 +66,7 @@ module.exports = {
       },
     ],
   },
-  "post,dished/list": {
+  "post,dished/mana/list": {
     name: "dished list",
     method: "post",
     fun: [
@@ -155,6 +156,72 @@ module.exports = {
         } catch (error) {
           console.error(error);
         }
+      },
+    ],
+  },
+  "post,dished/user/list": {
+    name: "user dished list",
+    method: "post",
+    fun: [
+      // checkUser,
+      checkManager,
+      async (ctx, next) => {
+        const { mana, user } = ctx.state;
+        if (!mana || !user) return next();
+        const { page, cateId } = ctx.request.body;
+        const res = await dishedServices.findDishedsByCategory(
+          page,
+          5,
+          cateId,
+          { isOnline: 1 }
+        );
+        const total = await dishedServices.count(cateId, { isOnline: 1 });
+        ctx.result = {
+          success: true,
+          msg: "ok",
+          code: 0,
+          data: res || [],
+          count: total,
+        };
+        return next();
+      },
+    ],
+  },
+  "get,dished/user/like/:isLike/:id": {
+    name: "like dished",
+    method: "get",
+    fun: [
+      // checkUser,
+      checkManager,
+      async (ctx, next) => {
+        const { mana, user } = ctx.state;
+        if (!mana || !user) return next();
+        const { id, isLike } = ctx.params;
+        const data = await dishedServices.findOneById(id);
+        if (!data) {
+          ctx.result = {
+            success: false,
+            msg: "未找到菜品信息",
+            code: -1,
+          };
+          return next();
+        }
+        const updateData = {
+          updateTime: new Date(),
+          isLike: isLike === '0' ? 1 : 0,
+          likeUser: user._id,
+        };
+        const res = await dishedServices.findOneAndUpdateById(id, updateData);
+        if (!res) {
+          ctx.result = {
+            success: false,
+            msg: "点赞失败！请重新操作",
+            code: 0,
+          };
+        } else {
+          ctx.result = { success: true, msg: "ok", code: 1 };
+        }
+        return next();
       },
     ],
   },

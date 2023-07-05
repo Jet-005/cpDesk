@@ -30,7 +30,6 @@ const checkManager = async (ctx, next) => {
     };
     return await next();
   }    
-
   ctx.state.mana = userInfo;
   await next();
 };
